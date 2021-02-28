@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>{{user}}</title><br>
+  </head>
+  <body>
+    <h1 style="text-align: center;">Blogs of {{user}}</h1>
+
+      {% if NothingToShow %}
+      <div style="background: linear-gradient(#fc5e03,#FFA500);" class="shadow p-3 mb-5 rounded ">
+      <h5 style="color:white;font-weight: bold;text-align: center;">Nothing to show</h5>
+      </div>     
+     {% else %}
+      {%  for b in blogs %}
+    <div style="background: linear-gradient(#fc5e03,#FFA500);" class="shadow p-3 mb-5 rounded ">
+    <div style="left:20%;width:50rem;" class="card shadow-lg p-3 mb-5 rounded" style="width: 18rem;">
+        <img class="card-img-top" src="{{b.images.url}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Author : {{b.username}}</h5>
+          <p class="card-text">{{b.blog}}</p>
+      
+        </div>
+        </div>
+      </div><br>
+    {% endfor %}
+  
+      {% endif %}
+
+     
+
+  </body>
+</html>
+
+
