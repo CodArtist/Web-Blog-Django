@@ -44,7 +44,12 @@
                                         {% endif %}
                                         </input>
                                       </div>
-                                    <div class="g-recaptcha" data-sitekey="6LeqVWcaAAAAAPd7oZ7PN4RfPoEFk0JmQ03VbN67"></div>
+                                    <h4>What is {{VerifynoOne}} + {{VerifynoTwo}}?</h4>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" placeholder="Your Answer" name="Verification">
+                                      <input type="hidden" value="{{sum}}" name="sum">
+                                    </div>
+                                    <!-- <div class="g-recaptcha" data-sitekey="6LeqVWcaAAAAAPd7oZ7PN4RfPoEFk0JmQ03VbN67"></div> -->
                                     <button type="submit" class="btn btn-primary">Register</button>
                                   </form>
                                   {% if UserAlreadyExist %}
@@ -52,6 +57,9 @@
                                 {% endif %}
                                 {% if CaptchaNotVerify %}
                                 <h5 style="color: red;">Please Verify Captcha</h5>
+                                {% endif %}
+                                {% if AddNotVerify %}
+                                <h5 style="color: red;">Plz write correct answer</h5>
                                 {% endif %}
                                 </div>
                               

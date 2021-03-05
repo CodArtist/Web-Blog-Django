@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 import requests
+import random
 from . models import Usersinfo
 from .forms import ImageForm
 import json
@@ -27,22 +28,32 @@ def register(request):
     PasswordNotMatch=False
     ShortPassword=False
     CaptchaNotVerify=False
+    AddNotVerify=False
+    VerifyNoOne=random.randint(0,500)
+    VerifyNoTwo=random.randint(30,600)
     if request.method == 'POST':
         Username=request.POST['username']
         Password=request.POST['password']
         ConfirmPassword=request.POST['ConfirmPassword']
-        clientKey=request.POST['g-recaptcha-response']
-        secretKey="6LeqVWcaAAAAAB9GzRUDDJiRgMdsIx_UYJhOyHcp"
+        
+        # Google recaptcha
+        # clientKey=request.POST['g-recaptcha-response']
+        # secretKey="6LeqVWcaAAAAAB9GzRUDDJiRgMdsIx_UYJhOyHcp"
 
-        captcha={
-            'secret':secretKey,
-            'response':clientKey
-        }
+        # captcha={
+        #     'secret':secretKey,
+        #     'response':clientKey
+        # }
 
-        res=requests.post("https://www.google.com/recaptcha/api/siteverify",data=captcha)
-        response=json.loads(res.text)
-        verified=response['success']
-        if(verified):
+        # res=requests.post("https://www.google.com/recaptcha/api/siteverify",data=captcha)
+        # response=json.loads(res.text)
+        # verified=response['success']
+
+        if(int(request.POST['Verification'])!=int(request.POST['sum'])):
+            AddNotVerify=True
+
+        
+        if(not(AddNotVerify)):
             if(Password==ConfirmPassword):
                 if(len(Password)>8):
                     if Usersinfo.objects.filter(username=Username).values("username").count()==0:
@@ -54,9 +65,10 @@ def register(request):
                     ShortPassword=True
             else:
                 PasswordNotMatch=True
-        else:
-            CaptchaNotVerify=True
-    return render(request,'register.html',{'UserAlreadyExist':UserAlreadyExist,'PasswordNotMatch':PasswordNotMatch,'ShortPassword':ShortPassword,'CaptchaNotVerify':CaptchaNotVerify})
+    
+
+            
+    return render(request,'register.html',{'UserAlreadyExist':UserAlreadyExist,'PasswordNotMatch':PasswordNotMatch,'ShortPassword':ShortPassword,'CaptchaNotVerify':CaptchaNotVerify,'VerifynoOne':VerifyNoOne,'VerifynoTwo':VerifyNoTwo,'AddNotVerify':AddNotVerify,'sum':VerifyNoOne+VerifyNoTwo})
 
 def Dashboard(request,username):
     UserNotFound=False
